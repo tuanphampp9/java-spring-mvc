@@ -36,9 +36,9 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
         <tbody>
           <c:forEach items="${users}" var="user">
             <tr>
-              <td><c:out value="${user.id}" /></td>
-              <td><c:out value="${user.email}" /></td>
-              <td><c:out value="${user.fullName}" /></td>
+              <td>${user.id}</td>
+              <td>${user.email}</td>
+              <td>${user.fullName}</td>
               <td>
                 <a href="/admin/user/view/${user.id}" class="btn btn-success"
                   >View</a

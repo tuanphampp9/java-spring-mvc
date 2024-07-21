@@ -1,4 +1,6 @@
 package vn.hoidanit.laptopshop.controller;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -34,12 +36,13 @@ public class UserController {
     public String createUserPage(Model model, @ModelAttribute("newUser") User newUser){
         System.out.println("Create user"+newUser);
         this.userService.handleSaveUser(newUser);
-        return "hello";
+        return "redirect:/admin/user";
     }
 
     @RequestMapping("/admin/user")
     public String getAllUser(Model model) {
-        model.addAttribute("users", this.userService.handleGetAllUser());
+        List<User> users = this.userService.handleGetAllUser();
+        model.addAttribute("users", users);
         return "/admin/user/index";
     }
     
