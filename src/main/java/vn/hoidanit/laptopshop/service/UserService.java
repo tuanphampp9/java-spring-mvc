@@ -22,4 +22,10 @@ public class UserService {
     public List<User> handleGetUserByEmail(String email) {
         return this.userRepository.findAllByEmail(email);
     }
+    public User handleGetUserById(long id) {
+        return this.userRepository.findById(id);
+    }
+    public void handleDeleteUserById(long id) {
+        this.userRepository.deleteById(id);
+    }
 }
