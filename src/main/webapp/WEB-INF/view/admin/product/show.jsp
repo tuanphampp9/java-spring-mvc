@@ -26,12 +26,58 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Dashboard</h1>
+            <h1 class="mt-4">Mange Products</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
               <li class="breadcrumb-item active">Products</li>
             </ol>
-            <div>table product</div>
+            <div class="mt-5">
+              <div class="d-flex justify-content-between align-items-center">
+                <h2>Table products</h2>
+                <a href="/admin/product/create" class="btn btn-primary"
+                  >Create a product</a
+                >
+              </div>
+              <hr />
+              <table class="table table-bordered">
+                <thead>
+                  <tr>
+                    <th scope="col">ID</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Factory</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <c:forEach items="${products}" var="product">
+                    <tr>
+                      <td>${product.id}</td>
+                      <td>${product.name}</td>
+                      <td>${product.price}</td>
+                      <td>${product.factory}</td>
+                      <td>
+                        <a
+                          href="/admin/product/view/${product.id}"
+                          class="btn btn-success"
+                          >View</a
+                        >
+                        <a
+                          href="/admin/product/edit/${product.id}"
+                          class="btn btn-warning"
+                          >Update</a
+                        >
+                        <a
+                          href="/admin/product/delete/${product.id}"
+                          class="btn btn-danger"
+                          >Delete</a
+                        >
+                      </td>
+                    </tr>
+                  </c:forEach>
+                </tbody>
+              </table>
+            </div>
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />
@@ -41,6 +87,6 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       crossorigin="anonymous"
     ></script>
-    <script src="js/scripts.js"></script>
+    <script src="/js/scripts.js"></script>
   </body>
 </html>
