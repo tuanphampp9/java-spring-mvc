@@ -11,7 +11,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     />
     <meta name="description" content="Tuấn Phạm IT - Dự án laptopshop" />
     <meta name="author" content="Tuấn Phạm IT" />
-    <title>Create product - Tuấn Phạm IT</title>
+    <title>Update product - Tuấn Phạm IT</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -21,6 +21,11 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
     <script>
       $(document).ready(() => {
         const productFile = $("#productFile");
+        const currentImg = "${newProduct.image}";
+        if (currentImg) {
+          $("#productPreview").attr("src", "/images/product/" + currentImg);
+          $("#productPreview").css({ display: "block" });
+        }
         productFile.change(function (e) {
           const imgURL = URL.createObjectURL(e.target.files[0]);
           $("#productPreview").attr("src", imgURL);
@@ -43,11 +48,11 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               <li class="breadcrumb-item active">Product</li>
             </ol>
             <div class="container mt-5">
-              <h1>Create a product</h1>
+              <h1>Update a product</h1>
               <hr />
               <form:form
                 method="post"
-                action="/admin/product/create"
+                action="/admin/product/update/${newProduct.id}"
                 modelAttribute="newProduct"
                 enctype="multipart/form-data"
               >
@@ -191,7 +196,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     style="max-height: 250px; display: none"
                   />
                 </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
+                <button type="submit" class="btn btn-warning">Update</button>
               </form:form>
             </div>
           </div>

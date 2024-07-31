@@ -63,7 +63,7 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                           >View</a
                         >
                         <a
-                          href="/admin/product/edit/${product.id}"
+                          href="/admin/product/update/${product.id}"
                           class="btn btn-warning"
                           >Update</a
                         >

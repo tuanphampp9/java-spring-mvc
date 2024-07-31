@@ -2,12 +2,17 @@ package vn.hoidanit.laptopshop.domain;
 
 import java.util.Set;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "products")
@@ -15,11 +20,23 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @NotEmpty(message = "Name is required")
     private String name;
+
+    @DecimalMin(value = "1.0", message = "Price must be greater than 0")
     private double price;
     private String image;
+
+    @NotNull
+    @NotEmpty(message = "Detail description is required")
+    @Column(columnDefinition = "MEDIUMTEXT")
     private String detailDesc;
+
+    @NotEmpty(message = "Short description is required")
     private String shortDesc;
+
+    @Min(value = 1, message = "Quantity must be greater or equal 1")
     private long quantity;
     private long sold;
     private String factory;
