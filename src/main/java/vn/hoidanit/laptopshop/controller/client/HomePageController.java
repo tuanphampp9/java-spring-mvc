@@ -20,6 +20,8 @@ import vn.hoidanit.laptopshop.service.UserService;
 
 import org.springframework.web.bind.annotation.PostMapping;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 
@@ -82,7 +84,9 @@ public class HomePageController {
     public String getLoginPage() {
         return "/auth/login";
     }
-    
-    
-    
+
+    @GetMapping("/access-denied")
+    public String getAccessDeniedPage() {
+        return "/auth/accessDenied";
+    }
 }
