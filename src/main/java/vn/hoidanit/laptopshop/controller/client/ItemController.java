@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import vn.hoidanit.laptopshop.domain.Product;
 import vn.hoidanit.laptopshop.service.ProductService;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
