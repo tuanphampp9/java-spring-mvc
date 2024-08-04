@@ -18,4 +18,10 @@ public class CartDetailService {
     public List<CartDetail> findAllByCart(Cart cart) {
         return this.cartDetailRepository.findAllByCart(cart);
     }
+    public CartDetail findById (long id) {
+        return this.cartDetailRepository.findById(id);
+    }
+    public void handleDeleteCartDetailById(long id) {
+         this.cartDetailRepository.deleteById(id);
+    }
 }

@@ -15,4 +15,10 @@ public class CartService {
     public Cart findByUser(User user) {
         return this.cartRepository.findByUser(user);
     }
+    public Cart save(Cart cart) {
+        return this.cartRepository.save(cart);
+    }
+    public void handleDeleteCartById(long id) {
+     this.cartRepository.deleteById(id);
+    }
 }
