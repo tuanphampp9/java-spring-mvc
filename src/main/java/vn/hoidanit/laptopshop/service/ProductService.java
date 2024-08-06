@@ -2,6 +2,9 @@ package vn.hoidanit.laptopshop.service;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import jakarta.servlet.http.HttpSession;
@@ -10,6 +13,7 @@ import vn.hoidanit.laptopshop.domain.CartDetail;
 import vn.hoidanit.laptopshop.domain.Order;
 import vn.hoidanit.laptopshop.domain.OrderDetail;
 import vn.hoidanit.laptopshop.domain.Product;
+import vn.hoidanit.laptopshop.domain.Product_;
 import vn.hoidanit.laptopshop.domain.User;
 import vn.hoidanit.laptopshop.repository.CartDetailRepository;
 import vn.hoidanit.laptopshop.repository.CartRepository;
@@ -36,8 +40,14 @@ public class ProductService {
     public void handleSaveProduct(Product product) {
         this.productRepository.save(product);
     }
-    public List<Product> handleGetAllProduct() {
-        return this.productRepository.findAll();
+
+    private Specification<Product> nameLike(String name){
+        return (root, query, criteriaBuilder)
+        -> criteriaBuilder.like(root.get(Product_.NAME), "%"+name+"%");
+    }
+
+    public Page<Product> handleGetAllProduct(String name, Pageable pageable) {
+        return this.productRepository.findAll(this.nameLike(name), pageable);
     }
     public Optional<Product> handleGetProductById(long id) {
         return this.productRepository.findById(id);
@@ -46,7 +56,7 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    public void handleAddProductToCart(String email, long productId, HttpSession session) {
+    public void handleAddProductToCart(String email, long productId, HttpSession session, int amountProduct) {
         User user = this.userService.handleGetOneUserByEmail(email);
         if(user !=null){
             Cart cart = this.cartRepository.findByUser(user);
@@ -54,7 +64,6 @@ public class ProductService {
             if(cart == null){
                 Cart otherCart = new Cart();
                 otherCart.setUser(user);
-                otherCart.setSum(1);
                 cart = this.cartRepository.save(otherCart);
             }
             //save cart_detail
@@ -63,7 +72,7 @@ public class ProductService {
             //check product exist in cart
             CartDetail cartDetail = this.cartDetailRepository.findByCartAndProduct(cart, product);
             if(cartDetail != null){
-                cartDetail.setQuantity(cartDetail.getQuantity() + 1);
+                cartDetail.setQuantity(cartDetail.getQuantity() + amountProduct);
                 this.cartDetailRepository.save(cartDetail);
                 return;
             }
@@ -71,9 +80,8 @@ public class ProductService {
             cartDetail.setCart(cart);
             cartDetail.setProduct(product);
             cartDetail.setPrice(product.getPrice());
-            cartDetail.setQuantity(1);
+            cartDetail.setQuantity(amountProduct);
             this.cartDetailRepository.save(cartDetail);
-
             //update cart total product
             int sum = cart.getSum()+1;
             cart.setSum(sum);
@@ -101,6 +109,7 @@ public class ProductService {
         order.setReceiverName(receiverName);
         order.setReceiverAddress(receiverAddress);
         order.setReceiverPhone(receiverPhone);
+        order.setStatus("Pending");
         order = this.orderRepository.save(order);
 
         //create order detail
@@ -129,6 +138,10 @@ public class ProductService {
             this.cartRepository.deleteById(cart.getId());
             session.setAttribute("sum", 0);
         }
+    }
+
+    public long countProducts() {
+        return this.productRepository.count();
     }
     
 }

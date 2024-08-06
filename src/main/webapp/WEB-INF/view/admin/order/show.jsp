@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core"%> <%@taglib
-uri="http://www.springframework.org/tags/form" prefix="form"%>
+uri="http://www.springframework.org/tags/form" prefix="form"%> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -31,7 +32,83 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
               <li class="breadcrumb-item active">Orders</li>
             </ol>
-            <div>table order</div>
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col">ID</th>
+                  <th scope="col">Total Price</th>
+                  <th scope="col">User</th>
+                  <th scope="col">Status</th>
+                  <th scope="col">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <c:forEach items="${orders}" var="order">
+                  <tr>
+                    <td>${order.id}</td>
+                    <td>
+                      <fmt:formatNumber
+                        value="${order.totalPrice}"
+                        type="number"
+                      />
+                      đ
+                    </td>
+                    <td>${order.receiverName}</td>
+                    <td>${order.status}</td>
+                    <td>
+                      <a
+                        href="/admin/order/view/${order.id}"
+                        class="btn btn-success"
+                        >View</a
+                      >
+                      <a
+                        href="/admin/order/update/${order.id}"
+                        class="btn btn-warning"
+                        >Update</a
+                      >
+                      <a
+                        href="/admin/order/delete/${order.id}"
+                        class="btn btn-danger"
+                        >Delete</a
+                      >
+                    </td>
+                  </tr>
+                </c:forEach>
+              </tbody>
+            </table>
+            <nav aria-label="Page navigation example">
+              <ul class="pagination justify-content-center">
+                <li class="page-item ${currentPage==1 ? 'disabled':'' }">
+                  <a
+                    class="page-link"
+                    href="/admin/order?page=${currentPage-1}"
+                    aria-label="Previous"
+                  >
+                    <span aria-hidden="true">&laquo;</span>
+                    <span class="sr-only">Previous</span>
+                  </a>
+                </li>
+                <c:forEach begin="1" end="${totalPages}" varStatus="i">
+                  <li class="page-item ${i.index==currentPage ? 'active':''}">
+                    <a class="page-link" href="/admin/order?page=${i.index}"
+                      >${i.index}</a
+                    >
+                  </li>
+                </c:forEach>
+                <li
+                  class="page-item ${currentPage==totalPages ?'disabled':'' }"
+                >
+                  <a
+                    class="page-link"
+                    href="/admin/order?page=${currentPage+1}"
+                    aria-label="Next"
+                  >
+                    <span aria-hidden="true">&raquo;</span>
+                    <span class="sr-only">Next</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
           </div>
         </main>
         <jsp:include page="../layout/footer.jsp" />

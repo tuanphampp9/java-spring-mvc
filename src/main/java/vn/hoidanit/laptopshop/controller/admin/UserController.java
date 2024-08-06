@@ -7,6 +7,9 @@ import java.util.List;
 
 import javax.naming.Binding;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -82,10 +85,14 @@ public class UserController {
         return "redirect:/admin/user";
     }
 
-    @RequestMapping("/admin/user")
-    public String getAllUser(Model model) {
-        List<User> users = this.userService.handleGetAllUser();
-        model.addAttribute("users", users);
+    @GetMapping("/admin/user")
+    public String getAllUser(Model model, @RequestParam(name = "page", defaultValue = "1") int page) {
+        Pageable pageable = PageRequest.of(page-1, 4);
+        Page<User> users = this.userService.handleGetAllUser(pageable);
+        List<User> listUser = users.getContent();
+        model.addAttribute("users", listUser);
+        model.addAttribute("currentPage", page);
+        model.addAttribute("totalPages", users.getTotalPages());
         return "/admin/user/index";
     }
 
