@@ -127,6 +127,20 @@
         $('#videoModal').on('hide.bs.modal', function (e) {
             $("#video").attr('src', $videoSrc);
         })
+
+        //add active class to header
+        const navElement = $("#navbarCollapse");
+        const currentUrl = window.location.pathname;
+        navElement.find('a.nav-link').each(function () {
+            const link = $(this); // Get the current link in the loop
+            const href = link.attr('href'); // Get the href attribute of the link
+
+            if (href === currentUrl) {
+                link.addClass('active'); // Add 'active' class if the href matches the current URL
+            } else {
+                link.removeClass('active'); // Remove 'active' class if the href does not match
+            }
+        });
     });
 
 
@@ -163,6 +177,10 @@
         }
         const input = button.parent().parent().find('input');
         input.val(newVal);
+
+        //set quantity for form detail product
+        const inputQuantity = document.getElementById("quantity_detail_product");
+        inputQuantity.value = newVal;
 
         //set form index
         const index = input.attr("data-cart-detail-index");

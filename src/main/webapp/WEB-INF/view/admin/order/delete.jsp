@@ -1,7 +1,6 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core"%> <%@taglib
-uri="http://www.springframework.org/tags/form" prefix="form"%> <%@ taglib
-uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+uri="http://www.springframework.org/tags/form" prefix="form"%>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -12,7 +11,7 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
     />
     <meta name="description" content="Tuấn Phạm IT - Dự án laptopshop" />
     <meta name="author" content="Tuấn Phạm IT" />
-    <title>Detail product - Tuấn Phạm IT</title>
+    <title>Dashboard - Tuấn Phạm IT</title>
     <link href="/css/styles.css" rel="stylesheet" />
     <script
       src="https://use.fontawesome.com/releases/v6.3.0/js/all.js"
@@ -27,37 +26,22 @@ uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
       <div id="layoutSidenav_content">
         <main>
           <div class="container-fluid px-4">
-            <h1 class="mt-4">Detail product</h1>
+            <h1 class="mt-4">Delete order</h1>
             <ol class="breadcrumb mb-4">
               <li class="breadcrumb-item"><a href="/admin">Dashboard</a></li>
-              <li class="breadcrumb-item">
-                <a href="/admin/product">Product</a>
-              </li>
-              <li class="breadcrumb-item active">View detail</li>
+              <li class="breadcrumb-item active">Confirm delete order</li>
             </ol>
             <div class="container mt-5">
               <div class="d-flex justify-content-between align-items-center">
-                <h2>Product detail with id =${product.id}</h2>
+                <h2>Delete order with ID: ${order.id}</h2>
               </div>
               <hr />
-              <div class="card">
-                <img
-                  src="/images/product/${product.image}"
-                  class="img-thumbnail"
-                  alt="${product.name}"
-                />
-                <div class="card-header">Product Information</div>
-                <ul class="list-group list-group-flush">
-                  <li class="list-group-item">ID: ${product.id}</li>
-                  <li class="list-group-item">Name: ${product.name}</li>
-                  <li class="list-group-item">
-                    Role:
-                    <fmt:formatNumber value="${product.price}" type="number" />
-                    đ
-                  </li>
-                </ul>
+              <div class="alert alert-warning" role="alert">
+                Are you sure to delete this order?
               </div>
-              <a href="/admin/product" class="btn btn-success mt-2">Back</a>
+              <form:form method="post" action="/admin/order/delete/${order.id}">
+                <button type="submit" class="btn btn-danger">Confirm</button>
+              </form:form>
             </div>
           </div>
         </main>

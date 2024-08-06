@@ -77,6 +77,39 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   </c:forEach>
                 </tbody>
               </table>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item ${currentPage==1 ? 'disabled':'' }">
+                    <a
+                      class="page-link"
+                      href="/admin/user?page=${currentPage-1}"
+                      aria-label="Previous"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <c:forEach begin="1" end="${totalPages}" varStatus="i">
+                    <li class="page-item ${i.index==currentPage ? 'active':''}">
+                      <a class="page-link" href="/admin/user?page=${i.index}"
+                        >${i.index}</a
+                      >
+                    </li>
+                  </c:forEach>
+                  <li
+                    class="page-item ${currentPage==totalPages ?'disabled':'' }"
+                  >
+                    <a
+                      class="page-link"
+                      href="/admin/user?page=${currentPage+1}"
+                      aria-label="Next"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </main>

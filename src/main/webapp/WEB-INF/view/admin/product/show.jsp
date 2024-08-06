@@ -1,6 +1,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%> <%@ taglib prefix="c"
 uri="http://java.sun.com/jsp/jstl/core"%> <%@taglib
-uri="http://www.springframework.org/tags/form" prefix="form"%>
+uri="http://www.springframework.org/tags/form" prefix="form"%> <%@ taglib
+uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html lang="en">
   <head>
     <meta charset="utf-8" />
@@ -54,7 +55,13 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                     <tr>
                       <td>${product.id}</td>
                       <td>${product.name}</td>
-                      <td>${product.price}</td>
+                      <td>
+                        <fmt:formatNumber
+                          value="${product.price}"
+                          type="number"
+                        />
+                        đ
+                      </td>
                       <td>${product.factory}</td>
                       <td>
                         <a
@@ -77,6 +84,39 @@ uri="http://www.springframework.org/tags/form" prefix="form"%>
                   </c:forEach>
                 </tbody>
               </table>
+              <nav aria-label="Page navigation example">
+                <ul class="pagination justify-content-center">
+                  <li class="page-item ${currentPage==1 ? 'disabled':'' }">
+                    <a
+                      class="page-link"
+                      href="/admin/product?page=${currentPage-1}"
+                      aria-label="Previous"
+                    >
+                      <span aria-hidden="true">&laquo;</span>
+                      <span class="sr-only">Previous</span>
+                    </a>
+                  </li>
+                  <c:forEach begin="1" end="${totalPages}" varStatus="i">
+                    <li class="page-item ${i.index==currentPage ? 'active':''}">
+                      <a class="page-link" href="/admin/product?page=${i.index}"
+                        >${i.index}</a
+                      >
+                    </li>
+                  </c:forEach>
+                  <li
+                    class="page-item ${currentPage==totalPages ?'disabled':'' }"
+                  >
+                    <a
+                      class="page-link"
+                      href="/admin/product?page=${currentPage+1}"
+                      aria-label="Next"
+                    >
+                      <span aria-hidden="true">&raquo;</span>
+                      <span class="sr-only">Next</span>
+                    </a>
+                  </li>
+                </ul>
+              </nav>
             </div>
           </div>
         </main>
