@@ -93,6 +93,7 @@ public class ProductService {
             //set appropriate min and max value based on the price range string
             switch (p) {
                 case "duoi-10-trieu":
+                    min=1;
                     max = 10000000;
                     break;
                 case "10-toi-15-trieu":
@@ -123,7 +124,7 @@ public class ProductService {
         this.productRepository.deleteById(id);
     }
 
-    public void handleAddProductToCart(String email, long productId, HttpSession session, int amountProduct) {
+    public void handleAddProductToCart(String email, long productId, HttpSession session, long amountProduct) {
         User user = this.userService.handleGetOneUserByEmail(email);
         if(user !=null){
             Cart cart = this.cartRepository.findByUser(user);
